@@ -113,20 +113,24 @@ export default function Skills({ isDarkMode }: SkillsProps) {
   };
 
   return (
-    <section id="skills" className="py-24 bg-[#0F172A] border-t border-b border-white/5 relative overflow-hidden">
+    <section id="skills" className="py-24 bg-[#0C0A10] border-t border-b border-white/5 relative overflow-hidden">
       {/* Background radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#8B5CF6]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#FB923C]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#FB923C] uppercase tracking-widest bg-white/5 border border-[#FB923C]/30 px-3.5 py-1 rounded-full mb-3">
+            <Cpu className="w-3.5 h-3.5" />
+            <span>Core Competencies</span>
+          </div>
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-            Expertise & Skills
+            Expertise & Technical Skills
           </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] mx-auto mt-4 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
+          <div className="w-16 h-1 bg-gradient-to-r from-[#FB923C] to-[#FDA4AF] mx-auto mt-4 rounded-full shadow-[0_0_10px_rgba(251,146,60,0.5)]" />
           <p className="text-[#CBD5E1] mt-4 font-sans text-base sm:text-lg">
-            An organized directory of my creative, technical, operational, and interpersonal proficiencies.
+            An organized directory of my technical software, low-code automation, QA validation, and visual design proficiencies.
           </p>
         </div>
 
@@ -141,11 +145,11 @@ export default function Skills({ isDarkMode }: SkillsProps) {
                 onClick={() => setSelectedCategory(cat.value as SkillCategory)}
                 className={`flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold transition-all duration-350 cursor-pointer border ${
                   isSelected
-                    ? 'bg-[#3B82F6] text-white border-[#3B82F6] shadow-[0_0_15px_rgba(59,130,246,0.3)] scale-105'
-                    : 'bg-[#1F2937]/50 text-[#CBD5E1] border-white/10 hover:border-white/20 hover:bg-[#1F2937]'
+                    ? 'bg-gradient-to-r from-[#FB923C] via-[#FDA4AF] to-[#FED7AA] text-slate-950 font-black border-transparent shadow-[0_0_15px_rgba(251,146,60,0.3)] scale-105'
+                    : 'bg-[#16131D] text-[#CBD5E1] border-white/10 hover:border-[#FB923C]/30 hover:bg-[#1C1624]'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : cat.color}`} />
+                <Icon className={`w-4 h-4 ${isSelected ? 'text-slate-950' : cat.color}`} />
                 <span>{cat.label}</span>
               </button>
             );

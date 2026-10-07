@@ -1,15 +1,20 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { Mail, Phone, MapPin, Linkedin, Github, Send, CheckCircle, AlertCircle, FileText, Trash2, ShieldAlert } from 'lucide-react';
+import { 
+  Mail, Phone, MapPin, Linkedin, Github, Send, CheckCircle, 
+  AlertCircle, FileText, Trash2, ShieldAlert, MessageCircle, 
+  ExternalLink 
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PERSONAL_INFO } from '../data';
 import { ContactMessage } from '../types';
+import Card3D from './Card3D';
 
 interface ContactProps {
   isDarkMode: boolean;
   onOpenResume: () => void;
 }
 
-export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
+export default function Contact({ onOpenResume }: ContactProps) {
   // Form input states
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -62,7 +67,6 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
 
     setIsSubmitting(true);
 
-    // Simulate standard server latency
     setTimeout(() => {
       const newMessage: ContactMessage = {
         id: `msg-${Date.now()}`,
@@ -86,15 +90,13 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
       setIsSubmitting(false);
       setSubmitSuccess(true);
 
-      // Clear fields
       setName('');
       setEmail('');
       setSubject('');
       setMessage('');
 
-      // Auto-clear success banner after 6 seconds
       setTimeout(() => setSubmitSuccess(false), 6000);
-    }, 1200);
+    }, 1000);
   };
 
   const deleteMessage = (id: string) => {
@@ -109,146 +111,233 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#111827] border-t border-b border-white/5 relative overflow-hidden">
+    <section id="contact" className="py-24 bg-[#0B0F19] border-t border-b border-white/5 relative overflow-hidden">
       {/* Background visual detail */}
-      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-[#3B82F6]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-[#FB923C]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-            Connect & Contact
+          <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#FB923C] uppercase tracking-widest bg-white/5 border border-[#FB923C]/30 px-3.5 py-1 rounded-full mb-3">
+            <Mail className="w-3.5 h-3.5" />
+            <span>Direct Communication & Inquiries</span>
+          </div>
+          <h2 className="font-display font-black text-3xl sm:text-4xl text-white tracking-tight">
+            Connect & Contact Me
           </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-[#3B82F6] to-[#b2ffff] mx-auto mt-4 rounded-full shadow-[0_0_10px_rgba(178,255,255,0.5)]" />
-          <p className="text-[#CBD5E1] mt-4 font-sans text-base sm:text-lg">
-            Let's discuss freelance projects, career positions, QA audits, or branding initiatives.
+          <div className="w-16 h-1 bg-gradient-to-r from-[#FB923C] via-[#FDA4AF] to-[#FED7AA] mx-auto mt-4 rounded-full shadow-[0_0_10px_rgba(251,146,60,0.5)]" />
+          <p className="text-[#CBD5E1] mt-4 font-sans text-sm sm:text-base leading-relaxed">
+            Reach out regarding AppSheet automation, software engineering positions, QA test execution, or Python and AI systems development.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
-          {/* Left panel: Info channels */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="space-y-4">
-              <h3 className="font-display text-2xl font-extrabold text-white">
-                Let's Start a Conversation
+          {/* Left panel: Clickable Info channels with 3D cards */}
+          <div className="lg:col-span-5 space-y-4">
+            {/* Maham Furqan Avatar & Status Card */}
+            <Card3D maxTilt={6}>
+              <div className="p-5 rounded-3xl border bg-gradient-to-br from-[#1C1624] to-[#14101A] border-[#FB923C]/30 flex items-center gap-4 shadow-xl">
+                <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-[#FB923C] p-0.5 bg-gradient-to-tr from-[#FB923C] to-[#FDA4AF] shadow-lg shrink-0">
+                  <img 
+                    src={PERSONAL_INFO.avatarUrl} 
+                    alt={PERSONAL_INFO.name} 
+                    className="w-full h-full object-cover rounded-[14px] object-top"
+                  />
+                </div>
+                <div>
+                  <h4 className="font-display font-black text-white text-base">{PERSONAL_INFO.name}</h4>
+                  <p className="text-[11px] text-[#FED7AA] font-mono font-bold">AppSheet Developer & Software Engineer</p>
+                  <div className="flex items-center gap-1.5 mt-1 text-[10px] text-emerald-400 font-mono font-bold">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Open to Inquiries & Roles</span>
+                  </div>
+                </div>
+              </div>
+            </Card3D>
+
+            <div className="space-y-2 mb-6 pt-2">
+              <h3 className="font-display text-2xl font-black text-white">
+                Contact Channels
               </h3>
-              <p className="text-sm text-[#CBD5E1] leading-relaxed font-sans">
-                Feel free to reach out via the secure contact portal or through my verified social channels. I usually respond to inquiries within 24 hours.
+              <p className="text-xs sm:text-sm text-[#CBD5E1] leading-relaxed font-sans">
+                Every channel below is directly clickable for instant communication.
               </p>
             </div>
 
-            {/* Visual Channel Cards */}
-            <div className="space-y-4">
-              {/* Email channel */}
-              <a 
-                href={`mailto:${PERSONAL_INFO.email}`}
-                className="p-5 rounded-3xl border bg-[#1F2937]/75 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-[#3B82F6]/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] flex items-center gap-4 group"
-              >
-                <div className="w-12 h-12 rounded-xl bg-white/5 text-[#b2ffff] flex items-center justify-center shrink-0 border border-white/5">
-                  <Mail className="w-5.5 h-5.5" />
-                </div>
-                <div>
-                  <h4 className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider">Email Address</h4>
-                  <p className="text-sm font-bold text-white group-hover:text-[#b2ffff] transition-colors">
-                    {PERSONAL_INFO.email}
-                  </p>
-                </div>
-              </a>
-
-              {/* Phone Channel */}
+            {/* Direct Phone Call */}
+            <Card3D maxTilt={6}>
               <a 
                 href={`tel:${PERSONAL_INFO.phone}`}
-                className="p-5 rounded-3xl border bg-[#1F2937]/75 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-[#3B82F6]/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] flex items-center gap-4 group"
+                className="p-5 rounded-3xl border bg-[#192231]/80 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-[#FB923C]/50 flex items-center justify-between group block"
+                title="Click to Call"
               >
-                <div className="w-12 h-12 rounded-xl bg-white/5 text-[#b2ffff] flex items-center justify-center shrink-0 border border-white/5">
-                  <Phone className="w-5.5 h-5.5" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/25">
+                    <Phone className="w-5.5 h-5.5" />
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-mono font-bold text-[#FED7AA]/70 uppercase tracking-wider">Direct Call / Cellular</h4>
+                    <p className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors font-mono">
+                      {PERSONAL_INFO.phone}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider">Contact Number</h4>
-                  <p className="text-sm font-bold text-white group-hover:text-[#b2ffff] transition-colors">
-                    {PERSONAL_INFO.phone}
-                  </p>
-                </div>
+                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
               </a>
+            </Card3D>
 
-              {/* Location Channel */}
-              <div 
-                className="p-5 rounded-3xl border bg-[#1F2937]/75 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-[#3B82F6]/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] flex items-center gap-4 group"
-              >
-                <div className="w-12 h-12 rounded-xl bg-white/5 text-[#b2ffff] flex items-center justify-center shrink-0 border border-white/5">
-                  <MapPin className="w-5.5 h-5.5" />
-                </div>
-                <div>
-                  <h4 className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider">My Location</h4>
-                  <p className="text-sm font-bold text-white group-hover:text-[#b2ffff] transition-colors">
-                    {PERSONAL_INFO.location}
-                  </p>
-                </div>
-              </div>
-
-              {/* LinkedIn Channel */}
+            {/* WhatsApp Chat */}
+            <Card3D maxTilt={6}>
               <a 
-                href={PERSONAL_INFO.linkedin}
+                href={PERSONAL_INFO.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-5 rounded-3xl border bg-[#1F2937]/75 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-[#3B82F6]/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] flex items-center gap-4 group"
+                className="p-5 rounded-3xl border bg-[#192231]/80 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-emerald-500/50 flex items-center justify-between group block"
+                title="Open WhatsApp Chat"
               >
-                <div className="w-12 h-12 rounded-xl bg-white/5 text-[#b2ffff] flex items-center justify-center shrink-0 border border-white/5">
-                  <Linkedin className="w-5.5 h-5.5" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/25">
+                    <MessageCircle className="w-5.5 h-5.5" />
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-mono font-bold text-[#FED7AA]/70 uppercase tracking-wider">WhatsApp Direct</h4>
+                    <p className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors font-mono">
+                      {PERSONAL_INFO.phone}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider">LinkedIn Corporate</h4>
-                  <p className="text-sm font-bold text-white group-hover:text-[#b2ffff] transition-colors">
-                    linkedin.com/in/mahamfurqan00
-                  </p>
-                </div>
+                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
               </a>
+            </Card3D>
 
-              {/* GitHub Channel */}
+            {/* Email Address */}
+            <Card3D maxTilt={6}>
+              <a 
+                href={`mailto:${PERSONAL_INFO.email}`}
+                className="p-5 rounded-3xl border bg-[#192231]/80 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-[#FB923C]/50 flex items-center justify-between group block"
+                title="Send Email"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#FB923C]/15 text-[#FED7AA] flex items-center justify-center shrink-0 border border-[#FB923C]/25">
+                    <Mail className="w-5.5 h-5.5" />
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-mono font-bold text-[#FED7AA]/70 uppercase tracking-wider">Email Address</h4>
+                    <p className="text-sm font-bold text-white group-hover:text-[#FB923C] transition-colors">
+                      {PERSONAL_INFO.email}
+                    </p>
+                  </div>
+                </div>
+                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+              </a>
+            </Card3D>
+
+            {/* Location (Clickable to Google Maps) */}
+            <Card3D maxTilt={6}>
+              <a 
+                href={PERSONAL_INFO.locationMapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-5 rounded-3xl border bg-[#192231]/80 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-amber-500/50 flex items-center justify-between group block"
+                title="View on Google Maps"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/25">
+                    <MapPin className="w-5.5 h-5.5" />
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-mono font-bold text-[#FED7AA]/70 uppercase tracking-wider">Location & Base</h4>
+                    <p className="text-sm font-bold text-white group-hover:text-amber-400 transition-colors">
+                      {PERSONAL_INFO.location}
+                    </p>
+                  </div>
+                </div>
+                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+              </a>
+            </Card3D>
+
+            {/* GitHub Profile */}
+            <Card3D maxTilt={6}>
               <a 
                 href={PERSONAL_INFO.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-5 rounded-3xl border bg-[#1F2937]/75 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-[#3B82F6]/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] flex items-center gap-4 group"
+                className="p-5 rounded-3xl border bg-[#192231]/80 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-[#FB923C]/50 flex items-center justify-between group block"
+                title="Open GitHub Profile"
               >
-                <div className="w-12 h-12 rounded-xl bg-white/5 text-[#b2ffff] flex items-center justify-center shrink-0 border border-white/5">
-                  <Github className="w-5.5 h-5.5" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#FB923C]/15 text-[#FB923C] flex items-center justify-center shrink-0 border border-[#FB923C]/25">
+                    <Github className="w-5.5 h-5.5" />
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-mono font-bold text-[#FED7AA]/70 uppercase tracking-wider">GitHub Account</h4>
+                    <p className="text-sm font-bold text-white group-hover:text-[#FED7AA] transition-colors font-mono">
+                      github.com/{PERSONAL_INFO.githubUsername}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider">GitHub Code Hub</h4>
-                  <p className="text-sm font-bold text-white group-hover:text-[#b2ffff] transition-colors">
-                    github.com/mahamfurqan
-                  </p>
-                </div>
+                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
               </a>
+            </Card3D>
 
-              {/* Offline Document channel */}
-              <div 
-                onClick={onOpenResume}
-                className="p-5 rounded-3xl border bg-[#1F2937]/75 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-[#3B82F6]/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] flex items-center gap-4 group cursor-pointer"
+            {/* LinkedIn Profile */}
+            <Card3D maxTilt={6}>
+              <a 
+                href={PERSONAL_INFO.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-5 rounded-3xl border bg-[#192231]/80 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-blue-500/50 flex items-center justify-between group block"
+                title="Open LinkedIn Profile"
               >
-                <div className="w-12 h-12 rounded-xl bg-white/5 text-[#b2ffff] flex items-center justify-center shrink-0 border border-white/5">
-                  <FileText className="w-5.5 h-5.5" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#0077B5]/20 text-[#0077B5] flex items-center justify-center shrink-0 border border-[#0077B5]/30">
+                    <Linkedin className="w-5.5 h-5.5" />
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-mono font-bold text-[#FED7AA]/70 uppercase tracking-wider">LinkedIn Corporate</h4>
+                    <p className="text-sm font-bold text-white group-hover:text-[#38BDF8] transition-colors">
+                      linkedin.com/in/mahamfurqan00
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider">Printable Resume</h4>
-                  <p className="text-sm font-bold text-white group-hover:text-[#b2ffff] transition-colors">
-                    Click to Open print-ready format
-                  </p>
+                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+              </a>
+            </Card3D>
+
+            {/* Printable Resume Button */}
+            <Card3D maxTilt={6}>
+              <button 
+                onClick={onOpenResume}
+                className="w-full p-5 rounded-3xl border bg-[#192231]/80 backdrop-blur-md border-white/10 transition-all duration-300 hover:border-[#FB923C]/50 flex items-center justify-between group text-left cursor-pointer"
+                title="View Resume"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#FDA4AF]/15 text-[#FDA4AF] flex items-center justify-center shrink-0 border border-[#FDA4AF]/25">
+                    <FileText className="w-5.5 h-5.5" />
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-mono font-bold text-[#FED7AA]/70 uppercase tracking-wider">Digital CV</h4>
+                    <p className="text-sm font-bold text-white group-hover:text-[#FDA4AF] transition-colors">
+                      View Printable Resume
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </div>
+                <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+              </button>
+            </Card3D>
           </div>
 
-          {/* Right Panel: Validated Submission form */}
-          <div className="lg:col-span-7 space-y-8">
-            <div className="p-6 sm:p-8 rounded-3xl border bg-[#1F2937]/75 backdrop-blur-md border-white/10">
-              
-              <h3 className="font-display text-xl font-extrabold text-white mb-6">
+          {/* Right Panel: Validated Submission form with 3D Card */}
+          <div className="lg:col-span-7">
+            <Card3D maxTilt={4} className="p-6 sm:p-8 rounded-3xl border bg-[#192231]/80 backdrop-blur-md border-white/10 shadow-2xl">
+              <h3 className="font-display text-xl font-black text-white mb-2">
                 Send a Direct Message
               </h3>
+              <p className="text-xs text-[#CBD5E1] mb-6 font-sans">
+                Fill in the details below. Messages are validated and logged with timestamp verification.
+              </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Name */}
@@ -261,15 +350,15 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
                       setName(e.target.value);
                       if (errors.name) setErrors(prev => { const { name, ...rest } = prev; return rest; });
                     }}
-                    placeholder="Your name"
-                    className={`w-full px-4 py-3 rounded-xl border text-sm transition-all outline-none font-bold bg-[#1E293B] text-white placeholder-[#94A3B8] ${
+                    placeholder="e.g. Sarah Jenkins"
+                    className={`w-full px-4 py-3 rounded-xl border text-xs sm:text-sm transition-all outline-none bg-slate-900 border-white/10 text-white placeholder-slate-400 ${
                       errors.name 
                         ? 'border-red-500 focus:ring-1 focus:ring-red-500' 
-                        : 'border-white/10 focus:border-[#3B82F6]'
+                        : 'focus:border-[#FB923C]'
                     }`}
                   />
                   {errors.name && (
-                    <span className="text-[10px] text-red-500 font-bold flex items-center gap-1">
+                    <span className="text-[10px] text-red-500 font-bold flex items-center gap-1 font-mono">
                       <AlertCircle className="w-3 h-3" />
                       <span>{errors.name}</span>
                     </span>
@@ -278,7 +367,6 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
 
                 {/* Email & Subject Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Email */}
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-[#CBD5E1]">Email Address *</label>
                     <input
@@ -288,22 +376,21 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
                         setEmail(e.target.value);
                         if (errors.email) setErrors(prev => { const { email, ...rest } = prev; return rest; });
                       }}
-                      placeholder="you@example.com"
-                      className={`w-full px-4 py-3 rounded-xl border text-sm transition-all outline-none font-bold bg-[#1E293B] text-white placeholder-[#94A3B8] ${
+                      placeholder="you@company.com"
+                      className={`w-full px-4 py-3 rounded-xl border text-xs sm:text-sm transition-all outline-none bg-slate-900 border-white/10 text-white placeholder-slate-400 ${
                         errors.email 
                           ? 'border-red-500 focus:ring-1 focus:ring-red-500' 
-                          : 'border-white/10 focus:border-[#3B82F6]'
+                          : 'focus:border-[#FB923C]'
                       }`}
                     />
                     {errors.email && (
-                      <span className="text-[10px] text-red-500 font-bold flex items-center gap-1">
+                      <span className="text-[10px] text-red-500 font-bold flex items-center gap-1 font-mono">
                         <AlertCircle className="w-3 h-3" />
                         <span>{errors.email}</span>
                       </span>
                     )}
                   </div>
 
-                  {/* Subject */}
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-[#CBD5E1]">Subject *</label>
                     <input
@@ -313,15 +400,15 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
                         setSubject(e.target.value);
                         if (errors.subject) setErrors(prev => { const { subject, ...rest } = prev; return rest; });
                       }}
-                      placeholder="Inquiry or Project Offer"
-                      className={`w-full px-4 py-3 rounded-xl border text-sm transition-all outline-none font-bold bg-[#1E293B] text-white placeholder-[#94A3B8] ${
+                      placeholder="AppSheet App / Shopify Project"
+                      className={`w-full px-4 py-3 rounded-xl border text-xs sm:text-sm transition-all outline-none bg-slate-900 border-white/10 text-white placeholder-slate-400 ${
                         errors.subject 
                           ? 'border-red-500 focus:ring-1 focus:ring-red-500' 
-                          : 'border-white/10 focus:border-[#3B82F6]'
+                          : 'focus:border-[#FB923C]'
                       }`}
                     />
                     {errors.subject && (
-                      <span className="text-[10px] text-red-500 font-bold flex items-center gap-1">
+                      <span className="text-[10px] text-red-500 font-bold flex items-center gap-1 font-mono">
                         <AlertCircle className="w-3 h-3" />
                         <span>{errors.subject}</span>
                       </span>
@@ -339,15 +426,15 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
                       setMessage(e.target.value);
                       if (errors.message) setErrors(prev => { const { message, ...rest } = prev; return rest; });
                     }}
-                    placeholder="Type details of your project or offer..."
-                    className={`w-full px-4 py-3 rounded-xl border text-sm transition-all outline-none resize-none font-bold bg-[#1E293B] text-white placeholder-[#94A3B8] ${
+                    placeholder="Describe your project, timeline, or position requirements..."
+                    className={`w-full px-4 py-3 rounded-xl border text-xs sm:text-sm transition-all outline-none resize-none bg-slate-900 border-white/10 text-white placeholder-slate-400 ${
                       errors.message 
                         ? 'border-red-500 focus:ring-1 focus:ring-red-500' 
-                        : 'border-white/10 focus:border-[#3B82F6]'
+                        : 'focus:border-[#FB923C]'
                     }`}
                   />
                   {errors.message && (
-                    <span className="text-[10px] text-red-500 font-bold flex items-center gap-1">
+                    <span className="text-[10px] text-red-500 font-bold flex items-center gap-1 font-mono">
                       <AlertCircle className="w-3 h-3" />
                       <span>{errors.message}</span>
                     </span>
@@ -361,10 +448,10 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-[#10B981] flex items-center gap-2.5 text-xs font-bold"
+                      className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center gap-2.5 text-xs font-bold"
                     >
-                      <CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" />
-                      <span>Success! Your test message was simulated and logged below.</span>
+                      <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" />
+                      <span>Message sent! Your message was cached and logged below.</span>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -373,24 +460,24 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 rounded-full text-sm font-bold bg-gradient-to-r from-[#3B82F6] to-[#b2ffff] text-slate-950 shadow-lg shadow-blue-500/10 hover:opacity-90 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-4 rounded-full text-xs sm:text-sm font-black bg-gradient-to-r from-[#FB923C] via-[#FDA4AF] to-[#FED7AA] text-slate-950 shadow-lg shadow-orange-500/20 hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <span className="w-5 h-5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      <span>Send Secure Message</span>
+                      <span>Send Direct Message</span>
                     </>
                   )}
                 </button>
               </form>
-            </div>
+            </Card3D>
           </div>
 
         </div>
 
-        {/* Local Messages Log Section - Interactive Proof of functional forms */}
+        {/* Local Messages Log Section */}
         <AnimatePresence>
           {loggedMessages.length > 0 && (
             <motion.div
@@ -400,12 +487,12 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="space-y-1">
-                  <h3 className="font-display text-lg font-extrabold text-white flex items-center gap-2">
-                    <ShieldAlert className="w-5 h-5 text-amber-500" />
-                    <span>Interactive Contact Logs Dashboard</span>
+                  <h3 className="font-display text-lg font-black text-white flex items-center gap-2">
+                    <ShieldAlert className="w-5 h-5 text-[#FB923C]" />
+                    <span>Logged Submissions Console</span>
                   </h3>
                   <p className="text-xs text-[#94A3B8]">
-                    To demonstrate frontend capability, your submissions are cached locally. You can inspect or clear them.
+                    Your messages are stored in browser storage for session tracking.
                   </p>
                 </div>
 
@@ -421,22 +508,22 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
               {/* Message cards directory */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {loggedMessages.map((msg) => (
-                  <div 
+                  <Card3D 
                     key={msg.id}
-                    className="p-5 rounded-3xl border bg-[#1F2937]/75 backdrop-blur-md border-white/10 transition-all duration-300 space-y-3 relative group hover:border-[#3B82F6]/30"
+                    maxTilt={6}
+                    className="p-5 rounded-3xl border bg-[#192231]/80 backdrop-blur-md border-white/10 space-y-3 relative group"
                   >
-                    {/* Delete button */}
                     <button
                       onClick={() => deleteMessage(msg.id)}
-                      className="absolute top-4 right-4 p-1 rounded-md text-[#94A3B8] hover:text-red-400 hover:bg-white/5 transition-colors cursor-pointer"
+                      className="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-white/5 transition-colors cursor-pointer"
                       title="Delete log"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-3.5 h-3.5" />
                     </button>
 
                     <div className="space-y-1 pr-6">
-                      <span className="text-[10px] text-[#b2ffff] font-bold font-mono uppercase bg-[#b2ffff]/10 px-2.5 py-0.5 rounded-full border border-[#b2ffff]/20">
-                        Logged Submission
+                      <span className="text-[10px] text-[#FED7AA] font-bold font-mono uppercase bg-[#FB923C]/10 px-2.5 py-0.5 rounded-full border border-[#FB923C]/20">
+                        Verified Message
                       </span>
                       <h4 className="font-display font-bold text-sm text-white">
                         {msg.subject}
@@ -453,7 +540,7 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
                       </div>
                       <span className="font-mono">{msg.date}</span>
                     </div>
-                  </div>
+                  </Card3D>
                 ))}
               </div>
             </motion.div>
@@ -462,5 +549,24 @@ export default function Contact({ isDarkMode, onOpenResume }: ContactProps) {
 
       </div>
     </section>
+  );
+}
+
+function ChevronRight(props: any) {
+  return (
+    <svg 
+      {...props} 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="24" 
+      height="24" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <path d="m9 18 6-6-6-6"/>
+    </svg>
   );
 }

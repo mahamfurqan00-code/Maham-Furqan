@@ -1,7 +1,7 @@
 export interface Project {
   id: string;
   title: string;
-  category: 'design' | 'marketing' | 'qa' | 'software';
+  category: 'design' | 'marketing' | 'qa' | 'software' | 'python' | 'apis';
   description: string;
   longDescription: string;
   objective: string;
@@ -11,6 +11,42 @@ export interface Project {
   imageUrl: string;
   resultsMetrics?: string[];
   features?: string[];
+  githubUrl?: string;
+  liveUrl?: string;
+  language?: string;
+  stars?: number;
+  forks?: number;
+  isFromGithub?: boolean;
+  inPortfolio?: boolean; // Controls whether included in portfolio or removed
+  updatedAt?: string;
+}
+
+export interface GitHubRepo {
+  id: number;
+  name: string;
+  full_name: string;
+  description: string | null;
+  html_url: string;
+  language: string | null;
+  stargazers_count: number;
+  forks_count: number;
+  updated_at: string;
+  topics: string[];
+  default_branch: string;
+  isIncluded?: boolean;
+}
+
+export interface GitHubUserProfile {
+  login: string;
+  name: string;
+  avatar_url: string;
+  html_url: string;
+  public_repos: number;
+  followers: number;
+  following: number;
+  location: string;
+  bio: string | null;
+  updated_at: string;
 }
 
 export interface Skill {
@@ -26,6 +62,9 @@ export interface Experience {
   period: string;
   description: string;
   highlights: string[];
+  technologies?: string[];
+  certificateTitle?: string;
+  certificateImageUrl?: string;
 }
 
 export interface Education {
@@ -36,17 +75,24 @@ export interface Education {
 }
 
 export interface Certification {
+  id?: string;
   title: string;
   issuer: string;
   year: string;
   category: string;
+  credentialUrl?: string;
+  certificateId?: string;
+  batch?: string;
+  imageUrl?: string;
+  documentType?: 'internship_letter' | 'certificate';
+  description?: string;
 }
 
 export interface BlogPost {
   id: string;
   title: string;
   summary: string;
-  content: string; // Markdown or simple HTML formatted content
+  content: string;
   date: string;
   readTime: string;
   category: string;
