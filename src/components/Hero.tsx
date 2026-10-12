@@ -12,10 +12,9 @@ import CertificateModal from './CertificateModal';
 interface HeroProps {
   isDarkMode: boolean;
   onOpenResume: () => void;
-  onOpenScanner?: () => void;
 }
 
-export default function Hero({ onOpenResume, onOpenScanner }: HeroProps) {
+export default function Hero({ onOpenResume }: HeroProps) {
   const [deck, setDeck] = useState([0, 1, 2, 3]);
   const [isFlipping, setIsFlipping] = useState<number | null>(null);
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
@@ -444,16 +443,15 @@ export default function Hero({ onOpenResume, onOpenScanner }: HeroProps) {
                 <span>Internship Letter &amp; Certificates</span>
               </button>
 
-              <button
-                onClick={() => {
-                  scrollToSection('portfolio');
-                  if (onOpenScanner) onOpenScanner();
-                }}
+              <a
+                href={PERSONAL_INFO.github}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-white bg-white/10 hover:bg-[#FB923C]/10 border border-[#FB923C]/30 active:scale-95 transition-all cursor-pointer text-sm"
               >
                 <Github className="w-4 h-4 text-[#FB923C]" />
-                <span>Scan GitHub</span>
-              </button>
+                <span>GitHub Profile</span>
+              </a>
               
               <button
                 onClick={() => scrollToSection('contact')}

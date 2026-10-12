@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   ArrowUp, Github, Linkedin, Mail, Phone, MapPin, 
   Heart, ExternalLink, RefreshCw, CheckCircle2, ShieldCheck,
@@ -26,8 +26,8 @@ import ThreeDBackground from './components/ThreeDBackground';
 import Cursor3D from './components/Cursor3D';
 
 // Data & Types
-import { PERSONAL_INFO, PROJECTS as DEFAULT_PROJECTS, INITIAL_GITHUB_REPOS } from './data';
-import { Project, GitHubRepo } from './types';
+import { PERSONAL_INFO, PROJECTS as DEFAULT_PROJECTS } from './data';
+import { Project } from './types';
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -39,22 +39,9 @@ export default function App() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // GitHub Repositories state (persisted in localStorage for dynamic add/remove)
-  const [githubRepos, setGithubRepos] = useState<GitHubRepo[]>(() => {
-    const saved = localStorage.getItem('portfolio_github_repos_v4');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        return INITIAL_GITHUB_REPOS;
-      }
-    }
-    return INITIAL_GITHUB_REPOS;
-  });
-
-  // Projects state (derived & synced with GitHub repos)
+  // Projects state (persisted in localStorage for dynamic add/remove)
   const [projects, setProjects] = useState<Project[]>(() => {
-    const saved = localStorage.getItem('portfolio_custom_projects_v4');
+    const saved = localStorage.getItem('portfolio_custom_projects_v5');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -65,181 +52,29 @@ export default function App() {
     return DEFAULT_PROJECTS;
   });
 
-  const [isScanning, setIsScanning] = useState(false);
-  const [lastScannedTime, setLastScannedTime] = useState<string>(() => {
-    return localStorage.getItem('portfolio_last_scanned') || 'Just now';
-  });
-
-  // Sync dark class on the HTML document element
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (isDarkMode) {
-      root.classList.add('dark');
-      localStorage.setItem('portfolio_theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      localStorage.setItem('portfolio_theme', 'light');
-    }
-  }, [isDarkMode]);
-
-  // Handle scroll-to-top button visibility
-  useEffect(() => {
-    const checkScroll = () => {
-      setShowScrollTop(window.scrollY > 400);
-    };
-    window.addEventListener('scroll', checkScroll);
-    return () => window.removeEventListener('scroll', checkScroll);
-  }, []);
-
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
-  
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
-  // Toggle repository visibility in portfolio
-  const handleToggleRepo = (repoId: number) => {
-    setGithubRepos(prev => {
-      const updated = prev.map(repo => {
-        if (repo.id === repoId) {
-          const nextState = !repo.isIncluded;
-          return { ...repo, isIncluded: nextState };
-        }
-        return repo;
-      });
-      localStorage.setItem('portfolio_github_repos', JSON.stringify(updated));
-      return updated;
-    });
-
-    // Update corresponding project in portfolio view
+  // Add custom project handler
+  const handleAddProject = (newProject: Project) => {
     setProjects(prev => {
-      const targetRepo = githubRepos.find(r => r.id === repoId);
-      if (!targetRepo) return prev;
-
-      const updated = prev.map(p => {
-        if (p.githubUrl?.toLowerCase().includes(targetRepo.name.toLowerCase())) {
-          return { ...p, inPortfolio: !targetRepo.isIncluded };
-        }
-        return p;
-      });
-      localStorage.setItem('portfolio_custom_projects', JSON.stringify(updated));
+      const updated = [newProject, ...prev];
+      localStorage.setItem('portfolio_custom_projects_v5', JSON.stringify(updated));
       return updated;
     });
   };
 
-  // Select all repositories
-  const handleSelectAllRepos = () => {
-    setGithubRepos(prev => {
-      const updated = prev.map(r => ({ ...r, isIncluded: true }));
-      localStorage.setItem('portfolio_github_repos', JSON.stringify(updated));
-      return updated;
-    });
-
+  // Remove project handler
+  const handleRemoveProject = (projectId: string) => {
     setProjects(prev => {
-      const updated = prev.map(p => ({ ...p, inPortfolio: true }));
-      localStorage.setItem('portfolio_custom_projects', JSON.stringify(updated));
+      const updated = prev.filter(p => p.id !== projectId);
+      localStorage.setItem('portfolio_custom_projects_v5', JSON.stringify(updated));
       return updated;
     });
   };
 
-  // Deselect all repositories
-  const handleDeselectAllRepos = () => {
-    setGithubRepos(prev => {
-      const updated = prev.map(r => ({ ...r, isIncluded: false }));
-      localStorage.setItem('portfolio_github_repos', JSON.stringify(updated));
-      return updated;
-    });
-
-    setProjects(prev => {
-      const updated = prev.map(p => (p.isFromGithub ? { ...p, inPortfolio: false } : p));
-      localStorage.setItem('portfolio_custom_projects', JSON.stringify(updated));
-      return updated;
-    });
-  };
-
-  // Reset to initial defaults
-  const handleResetRepoDefaults = () => {
-    setGithubRepos(INITIAL_GITHUB_REPOS);
+  // Reset to initial defaults handler
+  const handleResetProjects = () => {
     setProjects(DEFAULT_PROJECTS);
-    localStorage.removeItem('portfolio_github_repos');
-    localStorage.removeItem('portfolio_custom_projects');
+    localStorage.removeItem('portfolio_custom_projects_v5');
   };
-
-  // Add custom repo
-  const handleAddCustomRepo = (newRepo: GitHubRepo) => {
-    const updatedRepos = [newRepo, ...githubRepos];
-    setGithubRepos(updatedRepos);
-    localStorage.setItem('portfolio_github_repos', JSON.stringify(updatedRepos));
-
-    // Also add to project cards
-    const newProject: Project = {
-      id: `proj-custom-${newRepo.id}`,
-      title: newRepo.name.replace(/[-_]/g, ' '),
-      category: newRepo.language?.toLowerCase().includes('python') ? 'python' : 'software',
-      description: newRepo.description || 'Custom repository synced via live portfolio manager.',
-      longDescription: newRepo.description || 'Custom verified repository added from GitHub profile @' + PERSONAL_INFO.githubUsername,
-      objective: 'Engineering automated solutions and sharing open source deliverables on GitHub.',
-      process: [
-        'Version control and modular source architecture initialized on GitHub.',
-        'Continuous refinement of documentation and clean code standards.',
-        'Integration into portfolio showcase.'
-      ],
-      results: 'Repository live and synchronized with GitHub.',
-      resultsMetrics: ['Live on GitHub', 'Version Controlled', 'Clean Architecture'],
-      features: ['Source code repository', 'Version history tracking'],
-      tags: [newRepo.language || 'Code', 'GitHub', 'Open Source'],
-      imageUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
-      githubUrl: newRepo.html_url,
-      language: newRepo.language || 'Code',
-      isFromGithub: true,
-      inPortfolio: true,
-    };
-
-    const updatedProjects = [newProject, ...projects];
-    setProjects(updatedProjects);
-    localStorage.setItem('portfolio_custom_projects', JSON.stringify(updatedProjects));
-  };
-
-  // Live GitHub Account Scanner API call
-  const handleRefreshFromGitHub = useCallback(async () => {
-    setIsScanning(true);
-    try {
-      const response = await fetch(`https://api.github.com/users/${PERSONAL_INFO.githubUsername}/repos?sort=updated&per_page=30`);
-      if (response.ok) {
-        const data = await response.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const mappedRepos: GitHubRepo[] = data.map((r: any) => ({
-            id: r.id,
-            name: r.name,
-            full_name: r.full_name,
-            description: r.description,
-            html_url: r.html_url,
-            language: r.language,
-            stargazers_count: r.stargazers_count || 0,
-            forks_count: r.forks_count || 0,
-            updated_at: r.updated_at,
-            topics: r.topics || [],
-            default_branch: r.default_branch || 'main',
-            isIncluded: true,
-          }));
-
-          setGithubRepos(mappedRepos);
-          localStorage.setItem('portfolio_github_repos', JSON.stringify(mappedRepos));
-
-          const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          setLastScannedTime(timestamp);
-          localStorage.setItem('portfolio_last_scanned', timestamp);
-        }
-      }
-    } catch (e) {
-      console.warn('GitHub API fetch failed or rate-limited, continuing with seeded cache', e);
-    } finally {
-      setIsScanning(false);
-    }
-  }, []);
 
   return (
     <div className={`min-h-screen transition-colors duration-300 relative overflow-x-hidden ${
@@ -271,10 +106,6 @@ export default function App() {
         isDarkMode={isDarkMode} 
         toggleDarkMode={toggleDarkMode} 
         onOpenResume={() => setIsResumeOpen(true)} 
-        onOpenScanner={() => {
-          const el = document.getElementById('portfolio');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }}
       />
 
       {/* Main Layout Sections */}
@@ -282,25 +113,15 @@ export default function App() {
         <Hero 
           isDarkMode={isDarkMode} 
           onOpenResume={() => setIsResumeOpen(true)} 
-          onOpenScanner={() => {
-            const el = document.getElementById('portfolio');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
         />
         <About isDarkMode={isDarkMode} />
         <Skills isDarkMode={isDarkMode} />
         <Portfolio 
           isDarkMode={isDarkMode} 
           projects={projects}
-          githubRepos={githubRepos}
-          onToggleRepo={handleToggleRepo}
-          onSelectAllRepos={handleSelectAllRepos}
-          onDeselectAllRepos={handleDeselectAllRepos}
-          onResetRepoDefaults={handleResetRepoDefaults}
-          onAddCustomRepo={handleAddCustomRepo}
-          onRefreshFromGitHub={handleRefreshFromGitHub}
-          isScanning={isScanning}
-          lastScannedTime={lastScannedTime}
+          onAddProject={handleAddProject}
+          onRemoveProject={handleRemoveProject}
+          onResetProjects={handleResetProjects}
         />
         <Experience isDarkMode={isDarkMode} />
         <Certifications isDarkMode={isDarkMode} />

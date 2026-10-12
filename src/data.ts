@@ -1,5 +1,9 @@
 import { Project, Skill, Experience, Education, Certification, BlogPost, GitHubRepo } from './types';
-import profileAvatar from './assets/images/maham_profile_original.jpg';
+import profileAvatar from './assets/images/profile_pic_new.jpg';
+import thumbFyp from './assets/images/fyp_fraud_app_sentiment.png';
+import thumbWeather from './assets/images/live_weather_fetcher.png';
+import thumbBirthday from './assets/images/birthday_website.jpg';
+import thumbInternship from './assets/images/internship_completion_letter.jpg';
 import {
   THUMB_ADVANCE_BLOG_API,
   THUMB_BANK_OOP,
@@ -41,6 +45,34 @@ export const PERSONAL_INFO = {
 };
 
 export const INITIAL_GITHUB_REPOS: GitHubRepo[] = [
+  {
+    id: 101,
+    name: "BSSE-Final-Year-Project-FYP-",
+    full_name: "mahamfurqan00-code/BSSE-Final-Year-Project-FYP-",
+    description: "A web-based NLP application that uses sentiment analysis and user reviews to help detect potentially fraudulent mobile applications.",
+    html_url: "https://github.com/mahamfurqan00-code/BSSE-Final-Year-Project-FYP-",
+    language: "Python / HTML",
+    stargazers_count: 0,
+    forks_count: 0,
+    updated_at: "2026-10-10T12:00:00Z",
+    topics: ["nlp", "sentiment-analysis", "fraud-detection", "python", "bsse-fyp"],
+    default_branch: "main",
+    isIncluded: true,
+  },
+  {
+    id: 102,
+    name: "Live-Weather-Fetcher",
+    full_name: "mahamfurqan00-code/Live-Weather-Fetcher",
+    description: "A responsive, API-driven live weather fetcher showcasing asynchronous data fetching and modern UI states leveraging OpenWeatherMap and wttr.in APIs.",
+    html_url: "https://github.com/mahamfurqan00-code/Live-Weather-Fetcher",
+    language: "Python",
+    stargazers_count: 0,
+    forks_count: 0,
+    updated_at: "2026-10-10T12:00:00Z",
+    topics: ["python", "weather-api", "openweathermap", "wttr-in", "data-fetching"],
+    default_branch: "main",
+    isIncluded: true,
+  },
   {
     id: 1,
     name: "Lahore-City-Explorer-pandas-Folium-",
@@ -241,6 +273,108 @@ export const INITIAL_GITHUB_REPOS: GitHubRepo[] = [
 
 export const PROJECTS: Project[] = [
   {
+    id: "proj-fyp-sentiment",
+    title: "Detecting Fraud App Using Sentiment Analysis (BSSE FYP)",
+    category: "software",
+    description: "A web-based NLP machine learning application analyzing user reviews with sentiment classification to detect potentially fraudulent mobile apps.",
+    longDescription: "Final Year Project (BSSE) for Software Engineering. An intelligent web-based NLP platform that parses user reviews and analyzes polarity (Positive, Neutral, Negative) to identify fraudulent and deceptive mobile applications. Incorporates real user feedback ingestion, automated sentiment classification pipelines, and fraud risk detection metrics.",
+    objective: "Help mobile app users distinguish authentic software from deceptive or fraudulent applications through intelligent sentiment analytics.",
+    process: [
+      "User Feedback Parsing: Automated data ingestion pipeline for customer feedback and mobile app store reviews.",
+      "NLP Sentiment Analysis: Natural language processing model classifying reviews into Positive, Neutral, and Negative sentiments with confidence scores.",
+      "Fraud Detection Algorithm: Evaluates disproportionate sentiment anomalies, automated bot phrasing, and rating mismatches to calculate fraud probability.",
+      "Modern Interactive UI: Built an intuitive dashboard displaying sentiment breakdown progress bars, alert badges, and fraud risk indicators."
+    ],
+    results: "Accurately detects fraudulent mobile applications with clear visual sentiment metrics and real-time fraud risk indicators.",
+    resultsMetrics: [
+      "NLP Sentiment Analysis",
+      "Real Opinions Detection",
+      "Automated Fraud Alerts",
+      "Interactive Review Dashboard"
+    ],
+    features: [
+      "Real-time User Review Sentiment Analysis",
+      "Positive, Neutral, and Negative Polarity Breakdown",
+      "Fraud App Risk Detection & Warning Indicators",
+      "Mobile & Web Responsive Analytics Dashboard",
+      "Real Opinions, Smarter Detection Engine"
+    ],
+    tags: ["NLP", "Sentiment Analysis", "Python", "Fraud Detection", "Machine Learning", "BSSE FYP", "Web Development"],
+    imageUrl: thumbFyp,
+    githubUrl: "https://github.com/mahamfurqan00-code/BSSE-Final-Year-Project-FYP-",
+    language: "Python / NLP / Web",
+    isFromGithub: true,
+    inPortfolio: true,
+  },
+  {
+    id: "proj-live-weather",
+    title: "Live Weather Fetcher — Python & APIs",
+    category: "python",
+    description: "Real-time weather query system for any city worldwide using Python, OpenWeatherMap, and wttr.in APIs with automated CSV persistence.",
+    longDescription: "A responsive, API-driven live weather fetcher engineered with Python. Queries OpenWeatherMap and wttr.in APIs for real-time temperature, humidity, wind speed, UV index, and 'Feels Like' thermal sensation across global cities. Includes historical search caching, automated CSV data storage, and resilient offline/error states.",
+    objective: "Deliver instantaneous, accurate weather updates for any global city with resilient error handling and persistent search records.",
+    process: [
+      "API Orchestration: Integrated OpenWeatherMap and wttr.in APIs for dual-source weather payload retrieval.",
+      "JSON Parsing & Extraction: Parsed metrics including temperature (°C), humidity, wind speed, UV index, and conditions.",
+      "CSV Data Storage: Implemented automated persistence logging every weather check with timestamp for historical auditing.",
+      "Interactive Interface: Designed a clean desktop and mobile view with weather state graphics and multi-city search."
+    ],
+    results: "Sub-second live weather retrieval with reliable dual API fallbacks and persistent CSV telemetry logging.",
+    resultsMetrics: [
+      "Real-Time Weather Data",
+      "OpenWeatherMap & wttr.in",
+      "Automated CSV Storage",
+      "Global City Search"
+    ],
+    features: [
+      "Live Weather Data for Any City Worldwide",
+      "OpenWeatherMap and wttr.in API Integration",
+      "Real-time Metrics: Humidity, Wind Speed, UV Index, Feels Like",
+      "Automated Search Telemetry Logging to CSV",
+      "Clean Responsive UI with City Search Autocomplete"
+    ],
+    tags: ["Python", "OpenWeatherMap", "wttr.in", "APIs", "Data Storage", "CSV", "JSON"],
+    imageUrl: thumbWeather,
+    githubUrl: "https://github.com/mahamfurqan00-code/Live-Weather-Fetcher",
+    language: "Python / APIs",
+    isFromGithub: true,
+    inPortfolio: true,
+  },
+  {
+    id: "proj-birthday-greeting",
+    title: "Interactive Birthday Greeting Website",
+    category: "software",
+    description: "A personalized and interactive birthday celebration website built with HTML5, CSS3, and JavaScript featuring creative animations and dynamic effects.",
+    longDescription: "A personalized and interactive birthday greeting web experience crafted with clean HTML5 semantic structure, modern CSS3 styling, and smooth JavaScript interactions. Features an interactive 'Send a Wish' modal, animated birthday cake, floating balloons, celebratory confetti physics, and music playback.",
+    objective: "Create an enchanting, interactive digital celebration greeting that brings joy and smiles to recipients across all devices.",
+    process: [
+      "Creative Web Design: Conceptualized a celebratory layout with custom illustration assets, cakes, and balloons.",
+      "HTML5 Semantic Structure: Engineered accessible sections for hero greeting, wish triggers, and recipient notes.",
+      "CSS3 Keyframe Animations: Implemented smooth floating balloon animations, candle flames, and card transitions.",
+      "JavaScript Interactions: Programmed interactive 'Send a Wish' modal, confetti generation, and responsive touch controls."
+    ],
+    results: "Delivered a lightweight, 100% responsive interactive greeting website that works smoothly on phones, tablets, and desktops.",
+    resultsMetrics: [
+      "100% Responsive Design",
+      "Interactive 'Send a Wish' System",
+      "CSS3 Keyframe Animations",
+      "Sub-second Page Load"
+    ],
+    features: [
+      "Creative Web Design & UI Aesthetics",
+      "HTML5 Clean Semantic Structure",
+      "CSS3 Animations (Balloons, Cake Candles, Confetti)",
+      "Interactive 'Send a Wish' JavaScript Trigger",
+      "Personalized Celebration Experience"
+    ],
+    tags: ["HTML5", "CSS3", "JavaScript", "Creative Web Design", "Animations", "Frontend"],
+    imageUrl: thumbBirthday,
+    githubUrl: "https://github.com/mahamfurqan00-code/Birthday",
+    language: "HTML5 / CSS3 / JS",
+    isFromGithub: true,
+    inPortfolio: true,
+  },
+  {
     id: "proj-clickpad-automation",
     title: "Clickpad Enterprise AppSheet Operations Portal",
     category: "software",
@@ -268,7 +402,7 @@ export const PROJECTS: Project[] = [
       "Offline Operation with Automatic Sync"
     ],
     tags: ["Google AppSheet", "Business Automation", "Google Sheets", "QA Testing", "Workflow Optimization"],
-    imageUrl: "/src/assets/images/workspace_hero_1783403088586.jpg",
+    imageUrl: thumbInternship,
     githubUrl: "https://github.com/mahamfurqan00-code",
     language: "AppSheet / Low-Code",
     isFromGithub: false,
@@ -765,7 +899,7 @@ export const EXPERIENCE: Experience[] = [
     ],
     technologies: ["Google AppSheet", "Data Modeling", "Workflow Automation Bots", "Role-Based Access", "Inventory & Attendance Systems"],
     certificateTitle: "Clickpad Internship Completion Letter",
-    certificateImageUrl: CERT_CLICKPAD_LETTER,
+    certificateImageUrl: thumbInternship,
   },
   {
     id: "exp-python-bootcamp",
@@ -792,7 +926,7 @@ export const EXPERIENCE: Experience[] = [
     highlights: [
       "Completed Graphic Design training (Certificate ID: FVNRB59MK, Issued 14/03/2026) covering brand identity, visual hierarchy, typography, and digital design.",
       "Completed Digital Marketing training (Certificate ID: BYJAWJ6MK, Issued 14/03/2026) covering campaign strategy, audience growth, SEO, and analytics.",
-      "Verified online at https://digiskills.pk/verify and endorsed by Rector, Virtual University and CEO, Ignite."
+      "Verified online at https://digiskills.pk/verify and endorsed by Rector, Virtual University and CEO, Ignite.",
     ],
     technologies: ["Graphic Design", "Digital Marketing", "Adobe Photoshop", "Brand Identity", "Social Media Strategy", "SEO"],
     certificateTitle: "DigiSkills Graphic Design & Digital Marketing Certificates",
@@ -839,7 +973,7 @@ export const CERTIFICATIONS: Certification[] = [
     batch: "Internship: 4 July, 2025 – 4 October, 2025",
     category: "Internship Letter",
     documentType: "internship_letter",
-    imageUrl: CERT_CLICKPAD_LETTER,
+    imageUrl: thumbInternship,
     description: "Official Internship Completion Letter certifying completion of Google AppSheet development and workflow automation internship at Clickpad (data modeling, table relationships, inventory tracking, job management, attendance systems, formulas, expressions, and automation bots)."
   },
   {

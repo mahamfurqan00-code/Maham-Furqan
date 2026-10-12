@@ -11,10 +11,9 @@ interface NavbarProps {
   isDarkMode: boolean;
   toggleDarkMode?: () => void;
   onOpenResume: () => void;
-  onOpenScanner?: () => void;
 }
 
-export default function Navbar({ onOpenResume, onOpenScanner }: NavbarProps) {
+export default function Navbar({ onOpenResume }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -174,21 +173,18 @@ export default function Navbar({ onOpenResume, onOpenScanner }: NavbarProps) {
                     </button>
 
                     <button
-                      onClick={() => {
-                        scrollToSection('portfolio');
-                        if (onOpenScanner) onOpenScanner();
-                      }}
+                      onClick={() => scrollToSection('portfolio')}
                       className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 text-left transition-colors text-xs text-white group"
                     >
                       <div className="w-8 h-8 rounded-lg bg-[#FDA4AF]/15 text-[#FDA4AF] flex items-center justify-center shrink-0">
-                        <Github className="w-4 h-4" />
+                        <FolderGit2 className="w-4 h-4" />
                       </div>
                       <div>
                         <div className="font-bold flex items-center gap-1.5 group-hover:text-[#FDA4AF] transition-colors">
-                          <span>GitHub Live Scanner</span>
-                          <span className="text-[9px] bg-[#FB923C]/20 text-[#FED7AA] px-1.5 py-0.5 rounded-full font-mono font-bold">14 repos</span>
+                          <span>Add / Remove Projects</span>
+                          <span className="text-[9px] bg-[#FB923C]/20 text-[#FED7AA] px-1.5 py-0.5 rounded-full font-mono font-bold">Manager</span>
                         </div>
-                        <div className="text-[10px] text-slate-400">Sync & manage repositories</div>
+                        <div className="text-[10px] text-slate-400">Custom projects & controls</div>
                       </div>
                     </button>
 
@@ -472,13 +468,10 @@ export default function Navbar({ onOpenResume, onOpenScanner }: NavbarProps) {
                 Featured Works
               </button>
               <button
-                onClick={() => {
-                  scrollToSection('portfolio');
-                  if (onOpenScanner) onOpenScanner();
-                }}
+                onClick={() => scrollToSection('portfolio')}
                 className="p-2.5 rounded-xl bg-[#FB923C]/10 text-left text-xs font-bold text-[#FB923C] hover:bg-[#FB923C]/20"
               >
-                GitHub Scanner
+                Project Manager
               </button>
               <button
                 onClick={() => scrollToSection('skills')}
