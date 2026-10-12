@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Briefcase, Calendar, CheckSquare, Award, Database, Code2, FileText, Eye } from 'lucide-react';
+import { Briefcase, Calendar, CheckSquare, Award, Database, Code2, Eye } from 'lucide-react';
 import { motion } from 'motion/react';
 import { EXPERIENCE } from '../data';
 import Card3D from './Card3D';
@@ -66,15 +66,6 @@ export default function Experience({ isDarkMode: _isDarkMode }: ExperienceProps)
             Verified roles and milestones backed by official documents: Clickpad AppSheet development (4 July, 2025 – 4 October, 2025 · Letter issued Oct 30, 2025), GRIN Python engineering, DigiSkills certified Graphic Design &amp; Digital Marketing, and Anthropic Claude 101 AI systems.
           </p>
 
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <button
-              onClick={() => openCredential('exp-clickpad')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-slate-950 bg-gradient-to-r from-[#FB923C] via-[#FDA4AF] to-[#FED7AA] hover:opacity-95 transition-all cursor-pointer text-xs shadow-lg shadow-orange-500/20"
-            >
-              <FileText className="w-4 h-4" />
-              <span>View Clickpad Internship Completion Letter</span>
-            </button>
-          </div>
         </div>
 
         {/* Timeline container */}
@@ -170,20 +161,17 @@ export default function Experience({ isDarkMode: _isDarkMode }: ExperienceProps)
                         </div>
                       )}
 
-                      {/* Official Credential Viewer Button */}
-                      <div className="mt-5 pt-4 border-t border-white/10">
-                        <button
-                          onClick={() => openCredential(exp.id)}
-                          className="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-[#FB923C]/20 text-[#FED7AA] border border-[#FB923C]/30 hover:border-[#FB923C] text-xs font-mono font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
-                        >
-                          <Eye className="w-3.5 h-3.5 text-[#FB923C]" />
-                          <span>
-                            {exp.id === 'exp-clickpad'
-                              ? 'View Official Clickpad Internship Letter'
-                              : `View ${exp.certificateTitle || 'Official Certificate'}`}
-                          </span>
-                        </button>
-                      </div>
+                      {exp.id !== 'exp-clickpad' && (
+                        <div className="mt-5 pt-4 border-t border-white/10">
+                          <button
+                            onClick={() => openCredential(exp.id)}
+                            className="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-[#FB923C]/20 text-[#FED7AA] border border-[#FB923C]/30 hover:border-[#FB923C] text-xs font-mono font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
+                          >
+                            <Eye className="w-3.5 h-3.5 text-[#FB923C]" />
+                            <span>View {exp.certificateTitle || 'Official Certificate'}</span>
+                          </button>
+                        </div>
+                      )}
                     </Card3D>
                   </div>
                 </motion.div>

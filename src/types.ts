@@ -84,6 +84,7 @@ export interface Certification {
   certificateId?: string;
   batch?: string;
   imageUrl?: string;
+  modalImageUrl?: string;
   documentType?: 'internship_letter' | 'certificate';
   description?: string;
 }

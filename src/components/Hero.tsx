@@ -322,22 +322,6 @@ export default function Hero({ onOpenResume }: HeroProps) {
             initial="hidden"
             animate="visible"
           >
-            {/* Status Badge */}
-            <motion.div 
-              variants={itemVariants} 
-              className="mb-5 flex flex-wrap items-center gap-3"
-            >
-              <div className="bg-white/5 border border-[#FB923C]/30 px-4 py-1.5 rounded-full w-max flex items-center gap-2 shadow-sm shadow-[#FB923C]/10 backdrop-blur-md">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[#FED7AA] font-bold tracking-wider uppercase text-[11px] font-mono">
-                  AppSheet Developer (Clickpad) · Software Engineer
-                </span>
-              </div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#FED7AA]/70 font-mono">
-                Software Engineering &amp; QA Portfolio
-              </span>
-            </motion.div>
-
             {/* HIGHLY PROMINENT NAME with PEACH / CORAL PALETTE */}
             <motion.div variants={itemVariants} className="mb-4 relative">
               <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#FED7AA]/70 block mb-1 font-mono">

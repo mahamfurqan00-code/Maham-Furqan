@@ -400,7 +400,7 @@ export default function Contact({ onOpenResume }: ContactProps) {
                         setSubject(e.target.value);
                         if (errors.subject) setErrors(prev => { const { subject, ...rest } = prev; return rest; });
                       }}
-                      placeholder="AppSheet App / Shopify Project"
+                      placeholder="Project or inquiry subject"
                       className={`w-full px-4 py-3 rounded-xl border text-xs sm:text-sm transition-all outline-none bg-slate-900 border-white/10 text-white placeholder-slate-400 ${
                         errors.subject 
                           ? 'border-red-500 focus:ring-1 focus:ring-red-500' 

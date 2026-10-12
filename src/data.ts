@@ -3,7 +3,8 @@ import profileAvatar from './assets/images/profile_pic_new.jpg';
 import thumbFyp from './assets/images/fyp_fraud_app_sentiment.png';
 import thumbWeather from './assets/images/live_weather_fetcher.png';
 import thumbBirthday from './assets/images/birthday_website.jpg';
-import thumbInternship from './assets/images/internship_completion_letter.jpg';
+import internshipLetterImage from './assets/images/internship_completion_letter.jpg';
+import clickpadInternshipLetter from './assets/images/clickpad_internship_letter.png';
 import {
   THUMB_ADVANCE_BLOG_API,
   THUMB_BANK_OOP,
@@ -21,7 +22,6 @@ import {
   THUMB_TASK_MANAGER_API,
 } from './projectThumbnails2';
 import {
-  CERT_CLICKPAD_LETTER,
   CERT_PYTHON_GRIN,
   CERT_CLAUDE_101,
   CERT_DIGISKILLS_MARKETING,
@@ -376,7 +376,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "proj-clickpad-automation",
-    title: "Clickpad Enterprise AppSheet Operations Portal",
+    title: "Clickpad Internship Project — AppSheet Operations Portal",
     category: "software",
     description: "A production enterprise workflow management and inventory automation application built with Google AppSheet, backed by relational Google Sheets with barcode scanning and automated alerts.",
     longDescription: "Engineered during my AppSheet Developer tenure at Clickpad (Internship completed October 30, 2025). Built to replace fragmented spreadsheet entry, the system connects multiple relational data tables, orchestrates real-time barcode/QR code verification on mobile, and triggers instant email dispatches on critical stock levels.",
@@ -402,7 +402,7 @@ export const PROJECTS: Project[] = [
       "Offline Operation with Automatic Sync"
     ],
     tags: ["Google AppSheet", "Business Automation", "Google Sheets", "QA Testing", "Workflow Optimization"],
-    imageUrl: thumbInternship,
+    imageUrl: internshipLetterImage,
     githubUrl: "https://github.com/mahamfurqan00-code",
     language: "AppSheet / Low-Code",
     isFromGithub: false,
@@ -899,7 +899,7 @@ export const EXPERIENCE: Experience[] = [
     ],
     technologies: ["Google AppSheet", "Data Modeling", "Workflow Automation Bots", "Role-Based Access", "Inventory & Attendance Systems"],
     certificateTitle: "Clickpad Internship Completion Letter",
-    certificateImageUrl: thumbInternship,
+    certificateImageUrl: internshipLetterImage,
   },
   {
     id: "exp-python-bootcamp",
@@ -973,7 +973,8 @@ export const CERTIFICATIONS: Certification[] = [
     batch: "Internship: 4 July, 2025 – 4 October, 2025",
     category: "Internship Letter",
     documentType: "internship_letter",
-    imageUrl: thumbInternship,
+    imageUrl: internshipLetterImage,
+    modalImageUrl: clickpadInternshipLetter,
     description: "Official Internship Completion Letter certifying completion of Google AppSheet development and workflow automation internship at Clickpad (data modeling, table relationships, inventory tracking, job management, attendance systems, formulas, expressions, and automation bots)."
   },
   {

@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { 
   Palette, Laptop, ExternalLink, CheckCircle2, 
   ChevronRight, X, Sparkles, TrendingUp, Github, Code2, 
-  Database, Copy, Check, Plus, Trash2, RotateCcw,
-  Upload, SlidersHorizontal, AlertCircle
+  Database, Copy, Check, Plus, Trash2, Upload, AlertCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Project } from '../types';
-import { PERSONAL_INFO } from '../data';
 import Card3D from './Card3D';
 
 interface PortfolioProps {
@@ -15,26 +13,20 @@ interface PortfolioProps {
   projects: Project[];
   onAddProject: (project: Project) => void;
   onRemoveProject: (projectId: string) => void;
-  onResetProjects: () => void;
 }
 
 export default function Portfolio({
   projects,
   onAddProject,
   onRemoveProject,
-  onResetProjects,
 }: PortfolioProps) {
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'python' | 'apis' | 'software' | 'design'>('all');
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [copiedCloneId, setCopiedCloneId] = useState<string | null>(null);
-  
-  // Project Management states
-  const [isManageMode, setIsManageMode] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // New Project Form State
   const [newTitle, setNewTitle] = useState('');
   const [newCategory, setNewCategory] = useState<'software' | 'python' | 'apis' | 'design'>('software');
   const [newDescription, setNewDescription] = useState('');
@@ -43,10 +35,10 @@ export default function Portfolio({
   const [newGithubUrl, setNewGithubUrl] = useState('');
   const [newLiveUrl, setNewLiveUrl] = useState('');
   const [newImageUrl, setNewImageUrl] = useState('');
-  const [previewImage, setPreviewImage] = useState<string>('');
+  const [previewImage, setPreviewImage] = useState('');
 
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
+  const showToast = (message: string) => {
+    setToastMessage(message);
     setTimeout(() => setToastMessage(null), 3000);
   };
 
@@ -60,10 +52,21 @@ export default function Portfolio({
 
   // Display projects that are marked active in the portfolio
   const visibleProjects = projects.filter(p => p.inPortfolio !== false);
+  const featuredProjectOrder = [
+    'proj-clickpad-automation',
+    'proj-fyp-sentiment',
+    'proj-live-weather',
+  ];
+  const orderedProjects = [...visibleProjects].sort((a, b) => {
+    const aPriority = featuredProjectOrder.indexOf(a.id);
+    const bPriority = featuredProjectOrder.indexOf(b.id);
+    return (aPriority === -1 ? featuredProjectOrder.length : aPriority)
+      - (bPriority === -1 ? featuredProjectOrder.length : bPriority);
+  });
 
   const filteredProjects = selectedFilter === 'all'
-    ? visibleProjects
-    : visibleProjects.filter(p => p.category === selectedFilter);
+    ? orderedProjects
+    : orderedProjects.filter(p => p.category === selectedFilter);
 
   const copyCloneCommand = (repoUrl: string, id: string) => {
     navigator.clipboard.writeText(`git clone ${repoUrl}.git`);
@@ -71,21 +74,19 @@ export default function Portfolio({
     setTimeout(() => setCopiedCloneId(null), 2000);
   };
 
-  // Image file upload handler
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        setPreviewImage(result);
-        setNewImageUrl(result);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result !== 'string') return;
+      setPreviewImage(reader.result);
+      setNewImageUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
-  // Preset image thumbnails for convenience
   const presets = [
     { label: 'Coding / Tech', url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80' },
     { label: 'Cloud / App', url: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80' },
@@ -93,19 +94,14 @@ export default function Portfolio({
     { label: 'Modern UI/UX', url: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80' },
   ];
 
-  // Submit new project
-  const handleCreateProject = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCreateProject = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!newTitle.trim() || !newDescription.trim()) {
       showToast('Please fill in at least Title and Description');
       return;
     }
 
-    const tagArray = newTags
-      .split(',')
-      .map(t => t.trim())
-      .filter(Boolean);
-
+    const tagArray = newTags.split(',').map(tag => tag.trim()).filter(Boolean);
     const fallbackImage = newCategory === 'python'
       ? 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80'
       : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80';
@@ -120,7 +116,7 @@ export default function Portfolio({
       process: [
         'Architecture specification, requirements analysis, and system wireframing.',
         'Core development and integration using best engineering standards.',
-        'Thorough QA testing, performance benchmarking, and production release.'
+        'Thorough QA testing, performance benchmarking, and production release.',
       ],
       results: 'Successfully deployed and verified with outstanding performance and reliability.',
       resultsMetrics: ['Production Ready', '100% Validated', 'Modern Architecture'],
@@ -136,8 +132,6 @@ export default function Portfolio({
 
     onAddProject(project);
     showToast(`Project "${project.title}" added successfully!`);
-
-    // Reset form
     setNewTitle('');
     setNewDescription('');
     setNewObjective('');
@@ -150,19 +144,15 @@ export default function Portfolio({
   };
 
   const handleConfirmDelete = () => {
-    if (projectToDelete) {
-      onRemoveProject(projectToDelete.id);
-      showToast(`Project "${projectToDelete.title}" removed!`);
-      if (activeProject?.id === projectToDelete.id) {
-        setActiveProject(null);
-      }
-      setProjectToDelete(null);
-    }
+    if (!projectToDelete) return;
+    onRemoveProject(projectToDelete.id);
+    showToast(`Project "${projectToDelete.title}" removed!`);
+    if (activeProject?.id === projectToDelete.id) setActiveProject(null);
+    setProjectToDelete(null);
   };
 
   return (
     <section id="portfolio" className="py-24 bg-[#0C0A10] border-t border-white/5 relative overflow-hidden">
-      {/* Toast Notification */}
       <AnimatePresence>
         {toastMessage && (
           <motion.div
@@ -194,87 +184,8 @@ export default function Portfolio({
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#FB923C] via-[#FDA4AF] to-[#FED7AA] mx-auto mt-4 rounded-full shadow-[0_0_12px_rgba(251,146,60,0.5)]" />
           <p className="text-[#CBD5E1] mt-4 font-sans text-sm sm:text-base leading-relaxed">
-            Final Year Project (NLP Fraud Detection), Live Weather API Fetcher, Interactive Birthday Web Application, Clickpad Enterprise AppSheet Automations, and full-stack software systems.
+            Clickpad AppSheet internship project, Final Year Project (NLP Fraud Detection), Live Weather API Fetcher, and other real-world software systems.
           </p>
-        </div>
-
-        {/* Project Management & Control Bar */}
-        <div className="mb-10 p-4 sm:p-5 rounded-3xl bg-[#14101A]/90 border border-white/10 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
-          <div className="flex items-center gap-3.5 text-left w-full md:w-auto">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#FB923C] to-[#FDA4AF] text-slate-950 flex items-center justify-center shrink-0 shadow-md">
-              <Database className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-sm text-white">Project Manager</span>
-                <span className="text-[10px] font-mono bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1 font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  {filteredProjects.length} Displayed
-                </span>
-                {isManageMode && (
-                  <span className="text-[10px] font-mono bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded-full border border-rose-500/30 font-bold animate-pulse">
-                    Manage Mode Active
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-[#FED7AA]/80 font-mono mt-0.5">
-                Add custom projects or remove existing items with instant persistence.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-start md:justify-end">
-            {/* Add Project Button */}
-            <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="px-4 py-2.5 rounded-full text-xs font-bold bg-gradient-to-r from-[#FB923C] to-[#FDA4AF] text-slate-950 hover:opacity-95 transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-orange-500/20 active:scale-95"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Add New Project</span>
-            </button>
-
-            {/* Toggle Manage Mode Button */}
-            <button
-              onClick={() => setIsManageMode(!isManageMode)}
-              className={`px-4 py-2.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border active:scale-95 ${
-                isManageMode
-                  ? 'bg-rose-500/20 text-rose-300 border-rose-500/50 shadow-md'
-                  : 'bg-white/10 hover:bg-white/15 text-white border-white/15'
-              }`}
-              title="Toggle delete buttons on project cards"
-            >
-              <SlidersHorizontal className="w-3.5 h-3.5 text-[#FB923C]" />
-              <span>{isManageMode ? 'Done Managing' : 'Remove Projects'}</span>
-            </button>
-
-            {/* Reset Defaults Button */}
-            <button
-              onClick={() => {
-                if (window.confirm('Reset all projects back to defaults? Custom additions and deletions will be restored.')) {
-                  onResetProjects();
-                  showToast('Projects reset to defaults!');
-                }
-              }}
-              className="px-3.5 py-2.5 rounded-full text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
-              title="Reset all projects to defaults"
-            >
-              <RotateCcw className="w-3.5 h-3.5 text-[#FED7AA]" />
-              <span className="hidden sm:inline">Reset Defaults</span>
-            </button>
-
-            {/* GitHub Profile Direct Link */}
-            <a
-              href={PERSONAL_INFO.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3.5 py-2.5 rounded-full text-xs font-bold bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
-              title="Visit GitHub Profile"
-            >
-              <Github className="w-3.5 h-3.5 text-[#FB923C]" />
-              <span className="hidden sm:inline">GitHub</span>
-              <ExternalLink className="w-3 h-3 text-slate-400" />
-            </a>
-          </div>
         </div>
 
         {/* Filter Navigation Tabs */}
@@ -340,18 +251,16 @@ export default function Portfolio({
                 {/* Card Action Icons (Delete or GitHub) */}
                 <div className="absolute top-3.5 right-3.5 z-10 flex items-center gap-1.5">
                   {/* Remove Project Button */}
-                  {(isManageMode || true) && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setProjectToDelete(project);
-                      }}
-                      className="p-2 rounded-full bg-rose-950/80 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 transition-all hover:scale-110 shadow-lg group/btn"
-                      title="Remove this project"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  )}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setProjectToDelete(project);
+                    }}
+                    className="p-2 rounded-full bg-rose-950/80 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 transition-all hover:scale-110 shadow-lg group/btn"
+                    title="Remove this project"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
 
                   {/* Direct GitHub External Link Icon */}
                   {project.githubUrl && (
@@ -882,7 +791,7 @@ export default function Portfolio({
                     Remove Project?
                   </h3>
                   <p className="text-xs text-[#CBD5E1] mt-1 leading-relaxed">
-                    Are you sure you want to remove <span className="text-[#FB923C] font-bold">"{projectToDelete.title}"</span> from your portfolio? You can restore it anytime via "Reset Defaults".
+                    Are you sure you want to remove <span className="text-[#FB923C] font-bold">"{projectToDelete.title}"</span> from your portfolio?
                   </p>
                 </div>
 

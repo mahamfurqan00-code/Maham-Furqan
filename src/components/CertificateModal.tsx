@@ -29,6 +29,7 @@ export default function CertificateModal({ isOpen, onClose, initialCertId }: Cer
   if (!isOpen) return null;
 
   const currentCert: Certification = CERTIFICATIONS[selectedIndex] || CERTIFICATIONS[0];
+  const currentDocumentImage = currentCert.modalImageUrl ?? currentCert.imageUrl;
 
   const handlePrev = () => {
     setSelectedIndex((prev) => (prev === 0 ? CERTIFICATIONS.length - 1 : prev - 1));
@@ -92,10 +93,10 @@ export default function CertificateModal({ isOpen, onClose, initialCertId }: Cer
                   <ExternalLink className="w-3 h-3" />
                 </a>
               )}
-              {currentCert.imageUrl && (
+              {currentDocumentImage && (
                 <a
-                  href={currentCert.imageUrl}
-                  download={`${currentCert.title.replace(/\s+/g, '-')}.svg`}
+                  href={currentDocumentImage}
+                  download={`${currentCert.title.replace(/\s+/g, '-')}.${currentDocumentImage.endsWith('.png') ? 'png' : currentDocumentImage.startsWith('data:image/svg+xml') ? 'svg' : 'jpg'}`}
                   className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 hover:bg-[#FB923C]/20 text-[#FED7AA] border border-white/10 hover:border-[#FB923C]/40 text-xs font-mono font-bold transition-colors"
                   title="Download Document"
                 >
@@ -153,10 +154,10 @@ export default function CertificateModal({ isOpen, onClose, initialCertId }: Cer
             </button>
 
             <div className="max-w-3xl w-full flex flex-col items-center">
-              {currentCert.imageUrl && (
+              {currentDocumentImage && (
                 <div className="w-full rounded-2xl overflow-hidden border-2 border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.85)] bg-white">
                   <img
-                    src={currentCert.imageUrl}
+                    src={currentDocumentImage}
                     alt={currentCert.title}
                     className="w-full max-h-[62vh] object-contain mx-auto block"
                   />

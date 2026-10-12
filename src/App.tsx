@@ -19,7 +19,6 @@ import Skills from './components/Skills';
 import Portfolio from './components/Portfolio';
 import Experience from './components/Experience';
 import Certifications from './components/Certifications';
-import Blog from './components/Blog';
 import Contact from './components/Contact';
 import ResumeView from './components/ResumeView';
 import ThreeDBackground from './components/ThreeDBackground';
@@ -38,6 +37,20 @@ export default function App() {
 
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+
+  const toggleDarkMode = () => setIsDarkMode(prev => !prev);
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  useEffect(() => {
+    localStorage.setItem('portfolio_theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
+
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 400);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Projects state (persisted in localStorage for dynamic add/remove)
   const [projects, setProjects] = useState<Project[]>(() => {
@@ -68,12 +81,6 @@ export default function App() {
       localStorage.setItem('portfolio_custom_projects_v5', JSON.stringify(updated));
       return updated;
     });
-  };
-
-  // Reset to initial defaults handler
-  const handleResetProjects = () => {
-    setProjects(DEFAULT_PROJECTS);
-    localStorage.removeItem('portfolio_custom_projects_v5');
   };
 
   return (
@@ -121,11 +128,9 @@ export default function App() {
           projects={projects}
           onAddProject={handleAddProject}
           onRemoveProject={handleRemoveProject}
-          onResetProjects={handleResetProjects}
         />
         <Experience isDarkMode={isDarkMode} />
         <Certifications isDarkMode={isDarkMode} />
-        <Blog isDarkMode={isDarkMode} />
         <Contact isDarkMode={isDarkMode} onOpenResume={() => setIsResumeOpen(true)} />
       </main>
 
